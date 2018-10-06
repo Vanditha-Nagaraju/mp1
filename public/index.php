@@ -16,7 +16,7 @@ class main {
 
         $listFile = readFile::getMembersList($members);
         $table = tableView::generateTable($listFile);
-        echo $table;
+        $page = new bootstrapPage($table);
     }
 
 }
@@ -33,7 +33,6 @@ class readFile {
 
         while(! feof($memberslistFile))
         {
-
             $list = fgetcsv($memberslistFile);
             if($count == 0) {
                 $listHeader = $list;
@@ -41,7 +40,6 @@ class readFile {
                 $listFile[] = new listing($listHeader, $list);
             }
             $count++;
-
         }
 
         fclose($memberslistFile);
@@ -60,7 +58,6 @@ class listing {
         foreach ($list as $property => $value) {
             $this->{$property} = $value;
         }
-
     }
 
 }
@@ -70,7 +67,7 @@ class tableView {
     public static function generateTable($listFile) {
 
         $count = 0;
-        $view = '<table>';
+        $view = '<table class="table table-striped">';
         foreach ($listFile as $data) {
 
             if($count == 0) {
@@ -93,6 +90,23 @@ class tableView {
         }
         $view .= '</table>';
         return $view;
+    }
+
+}
+
+class bootstrapPage{
+
+    public function __construct($table) {
+        $view = '';
+        $view = '<!DOCTYPE html><html><head>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        </head><body><div class="container">';
+        $view .= $table;
+        $view .= '</div></body></html>';
+        echo $view;
     }
 
 }

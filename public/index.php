@@ -8,27 +8,24 @@
 
 main::initiate('members.csv');
 
-class main {
-
+class main
+{
     private $view;
 
-    static public function initiate($members){
-
+    static public function initiate($members)
+    {
         $listFile = readFile::getMembersList($members);
         $table = tableView::generateTable($listFile);
         $page = new bootstrapPage($table);
     }
-
 }
 
-class readFile {
-
-    public static function getMembersList($members){
-
+class readFile
+{
+    public static function getMembersList($members)
+    {
         $memberslistFile = fopen($members,"r");
-
         $listHeader = array();
-
         $count = 0;
 
         while(! feof($memberslistFile))
@@ -44,37 +41,37 @@ class readFile {
 
         fclose($memberslistFile);
         return $listFile;
-
     }
-
 }
 
-class listing {
-
+class listing
+{
     public function __construct(Array $listHeader = null, $value = null )
     {
         $list = array_combine($listHeader, $value);
 
-        foreach ($list as $property => $value) {
+        foreach ($list as $property => $value)
+        {
             $this->{$property} = $value;
         }
     }
-
 }
 
-class tableView {
-
-    public static function generateTable($listFile) {
-
+class tableView
+{
+    public static function generateTable($listFile)
+    {
         $count = 0;
         $view = '<table class="table table-striped">';
-        foreach ($listFile as $data) {
-
-            if($count == 0) {
+        foreach ($listFile as $data)
+        {
+            if($count == 0)
+            {
                 $view .= '<tr>';
                 $array = (array) $data;
                 $fields = array_keys($array);
-                foreach($fields as $key=>$value){
+                foreach($fields as $key=>$value)
+                {
                     $view .= '<th>' .htmlspecialchars($value) . '</th>';
                 }
                 $view .= '</tr>';
@@ -82,7 +79,8 @@ class tableView {
             $view .= '<tr>';
             $array = (array) $data;
             $values = array_values($array);
-            foreach($values as $key=>$value){
+            foreach($values as $key=>$value)
+            {
                 $view .= '<td>' .htmlspecialchars($value) . '</td>';
             }
             $view .= '</tr>';
@@ -91,12 +89,12 @@ class tableView {
         $view .= '</table>';
         return $view;
     }
-
 }
 
-class bootstrapPage{
-
-    public function __construct($table) {
+class bootstrapPage
+{
+    public function __construct($table)
+    {
         $view = '';
         $view = '<!DOCTYPE html><html><head>
           <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -108,5 +106,4 @@ class bootstrapPage{
         $view .= '</div></body></html>';
         echo $view;
     }
-
 }

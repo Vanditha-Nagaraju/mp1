@@ -10,11 +10,14 @@ main::initiate('members.csv');
 
 class main {
 
-            static public function initiate($members){
+    private $view;
 
-            $listfile = readFile::getMembersList($members);
+    static public function initiate($members){
 
-        }
+        $listFile = readFile::getMembersList($members);
+        $table = tableView::generateTable($listFile);
+        echo $table;
+    }
 
 }
 
@@ -31,39 +34,65 @@ class readFile {
         while(! feof($memberslistFile))
         {
 
-            $lists = fgetcsv($memberslistFile);
+            $list = fgetcsv($memberslistFile);
             if($count == 0) {
-                $listHeader = $lists;
-                echo $listHeader[0];
+                $listHeader = $list;
+            } else {
+                $listFile[] = new listing($listHeader, $list);
             }
             $count++;
 
         }
 
         fclose($memberslistFile);
-        return $lists;
+        return $listFile;
 
     }
 
 }
 
+class listing {
 
+    public function __construct(Array $listHeader = null, $value = null )
+    {
+        $list = array_combine($listHeader, $value);
 
+        foreach ($list as $property => $value) {
+            $this->{$property} = $value;
+        }
 
+    }
 
+}
 
+class tableView {
 
+    public static function generateTable($listFile) {
 
+        $count = 0;
+        $view = '<table>';
+        foreach ($listFile as $data) {
 
+            if($count == 0) {
+                $view .= '<tr>';
+                $array = (array) $data;
+                $fields = array_keys($array);
+                foreach($fields as $key=>$value){
+                    $view .= '<th>' .htmlspecialchars($value) . '</th>';
+                }
+                $view .= '</tr>';
+            }
+            $view .= '<tr>';
+            $array = (array) $data;
+            $values = array_values($array);
+            foreach($values as $key=>$value){
+                $view .= '<td>' .htmlspecialchars($value) . '</td>';
+            }
+            $view .= '</tr>';
+            $count++;
+        }
+        $view .= '</table>';
+        return $view;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
+}

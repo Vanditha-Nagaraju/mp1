@@ -5,7 +5,23 @@
  * Date: 10/2/18
  * Time: 6:41 PM
  */
-echo 'Hello world';
+
+main::initiate('members.csv');
+
+class main {
+
+    static public function initiate($members){
+        echo $members;
+    }
+
+}
+
+
+
+
+
+
+
 
 
 

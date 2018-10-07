@@ -95,29 +95,12 @@ class bootstrapPage
 {
     public function __construct($table)
     {
-        $view = '';
-        $view = '<!DOCTYPE html><html><head>
+          $view = '<!DOCTYPE html><html><head>
           <meta name="viewport" content="width=device-width, initial-scale=1">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-                  </head><body><div class="container">';
+          </head><body><div class="container">';
         $view .= $table;
         $view .= '</div></body></html>';
         echo $view;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
